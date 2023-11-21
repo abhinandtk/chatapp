@@ -8,18 +8,28 @@ function Chatapp() {
     const [messages,setMessages]=useState([])
     const [message,setMessage]=useState('')
     let allmessages=[]
-    console.log(allmessages);
+    console.log(message);
     useEffect(()=>{
-        Pusher.logToConsole = true;
+        pusherJs.logToConsole = true;
 
-    const pusher = new Pusher('107f169fb90c869fb329', {
+    const pusher = new pusherJs('107f169fb90c869fb329', {
       cluster: 'ap2'
     });
 
     const channel = pusher.subscribe('chat');
     channel.bind('message', function(data) {
-        allmessages.push(data)
-        setMessages(allmessages)
+    console.log(data,'all');
+    console.log(allmessages,'all');
+
+        console.log(data,'datasss');
+        if (data){
+            game=data[0]
+            
+            allmessages.push(game)
+
+        }
+
+        setMessages( allmessages);
     });
     },[])
     const submit=()=>{
@@ -33,13 +43,18 @@ function Chatapp() {
   return (
     <div>
         <input type="text"  onChange={(e)=>setUsername(e.target.value)} />
-        {messages.map((value,key)=>(
-            <div>
+        {messages.map((value,key)=>{
+            return(
+                <div key={key}>
                 <h4>{value.username}</h4>
                 <h4>{value.message}</h4>
             </div>
-        ))}
-        <input type="text" placeholder='write your message' />
+
+            )
+        }
+          
+        )}
+        <input type="text" onChange={(e)=>setMessage(e.target.value)} placeholder='write your message' />
         <button onClick={submit}>send</button>
     </div>
   )
