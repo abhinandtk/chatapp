@@ -9,7 +9,7 @@ class chat(models.Model):
     to_user=models.ForeignKey(User,related_name="to_user_message",on_delete=models.CASCADE)
     create_date=models.DateTimeField(auto_now_add=True)
     
-    def __str__(self):
-        return self.message
+    # def __str__(self):
+    #     return self.message
     
     

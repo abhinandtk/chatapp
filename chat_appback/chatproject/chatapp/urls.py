@@ -8,4 +8,5 @@ urlpatterns = [
     path('getuserall',views.getuserall.as_view(),name="getuserall"),
     path('inbox',views.inbox.as_view(),name="inbox"),
     path('user_chat',views.user_chat.as_view(),name="user_chat"),
+    path('Login',views.Login.as_view(),name="Login"),
 ]

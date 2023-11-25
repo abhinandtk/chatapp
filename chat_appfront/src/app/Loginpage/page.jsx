@@ -2,9 +2,12 @@
 import React, { useState } from "react";
 import "../../../styles/tailwindd.css";
 import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 function Page() {
     const [state,setState]=useState()
+    const router=useRouter()
     const inputChange=(event)=>{
         const {name,value}=event.target
         setState({...state,[name]:value})
@@ -12,8 +15,10 @@ function Page() {
     }
     const submit=(e)=>{
         e.preventDefault()
-        axios.post('http://127.0.0.1:8000/Register',state).then((res)=>{
+        axios.post('http://127.0.0.1:8000/Login',state).then((res)=>{
             console.log(res);
+            localStorage.setItem('id',res.data.data)
+            router.push('/')
         }).catch((error)=>{
             console.log(error);
         })
@@ -50,7 +55,7 @@ function Page() {
                     type="text"
                     onChange={inputChange}
                     name="username"
-                    id="email"
+                    id="username"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="username"
                     required=""
