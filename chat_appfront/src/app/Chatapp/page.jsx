@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "../../../styles/tailwindd.css";
 import axios from "axios";
 
@@ -48,6 +48,22 @@ function Chatapp() {
 
     return result;
   }
+
+  const messagesContainerRef = useRef(null);
+
+   const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    // Scroll to the bottom of the messages container when totalmessage2 changes
+    // scrollToBottom();
+    console.log('hai');
+  }, [totalmessage2]);
+
+
   useEffect(() => {
     console.log("senduser:", senduser);
     console.log("receiveuser:", receiveuser);
@@ -111,8 +127,10 @@ console.log(sortedArray,'ddddddd');
 
   const sendsubmit=(event)=>{
     event.preventDefault()
+
     axios.post('http://127.0.0.1:8000/chatapi',{'from_user':id,'to_user':otherid,'message':chat}).then((res)=>{
         console.log(res);
+        
     }).catch((error)=>{
         console.log(error);
     })
@@ -285,14 +303,16 @@ console.log(sortedArray,'ddddddd');
 
                 <div
                   class="flex-1 overflow-auto"
+                  ref={messagesContainerRef}
                   style={{ backgroundColor: "#DAD3CC" }}
                 >
-                  <div class="py-2 px-3">
+                  <div class="py-2 px-3" >
                     {totalmessage2?.map((value, key) => (
-                      <div className={value.name==id ?"flex mb-2":"flex justify-end mb-2"}>
+                      <div                  
+                      className={value.name==id ?"flex mb-2":"flex justify-end mb-2"}>
                         <div
                           class="rounded py-2 px-3"
-                          style={value.name==id?{ backgroundColor: "#F2F2F2" }:{ backgroundColor: "#E2F7CB" }}
+                          style={value.name==id?{ backgroundColor:"#E2F7CB"  }:{ backgroundColor:  "#F2F2F2"}}
                         >
                           <p class="text-sm text-teal">{value.message}</p>
                         
